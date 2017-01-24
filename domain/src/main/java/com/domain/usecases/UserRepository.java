@@ -10,4 +10,7 @@ public interface UserRepository {
   Observable<UserModel> getUserDetail(String name);
 
   Observable<Boolean> deleteUser(String name);
+
+  Observable<UserModelCollection> searchUsers(String queryText);
 }
+

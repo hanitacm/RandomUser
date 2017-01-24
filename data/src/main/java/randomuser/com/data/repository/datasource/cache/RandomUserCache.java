@@ -1,9 +1,8 @@
 package randomuser.com.data.repository.datasource.cache;
 
-import android.util.Log;
-import com.domain.model.UserModel;
 import java.util.List;
 import randomuser.com.data.model.UserDataModel;
+import randomuser.com.data.model.UserDataModelCollection;
 import rx.Observable;
 
 public class RandomUserCache {
@@ -17,10 +16,12 @@ public class RandomUserCache {
     boolean result = true;
     try {
       for (UserDataModel user : userDataModelCollection) {
-        fileManager.write(user.getEmail(), user);
+        String fileName =
+            user.getName().getFirst() + "_" + user.getName().getLast() + "_" + user.getEmail();
+        fileManager.write(fileName, user);
       }
     } catch (Exception e) {
-      result =false;
+      result = false;
     }
 
     return Observable.just(result);
@@ -36,5 +37,9 @@ public class RandomUserCache {
   public Observable<Boolean> deleteUser(String name) {
 
     return fileManager.delete(name);
+  }
+
+  public Observable<UserDataModelCollection> findUsers(String queryText) {
+    return fileManager.findUsers(queryText);
   }
 }

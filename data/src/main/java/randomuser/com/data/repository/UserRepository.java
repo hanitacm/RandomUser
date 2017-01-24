@@ -42,12 +42,17 @@ public class UserRepository implements com.domain.usecases.UserRepository {
 
       @Override
       public Observable<Boolean> call(Boolean aBoolean) {
-          Observable<Boolean> result = Observable.just(false);
+        Observable<Boolean> result = Observable.just(false);
         if (aBoolean) {
-          result= randomUserPreferences.saveDeleteUser(name);
+          result = randomUserPreferences.saveDeleteUser(name);
         }
         return result;
       }
     });
+  }
+
+  @Override
+  public Observable<UserModelCollection> searchUsers(String queryText) {
+    return randomUserCache.findUsers(queryText).map(userDataModelMapper);
   }
 }

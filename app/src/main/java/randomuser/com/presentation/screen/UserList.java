@@ -1,10 +1,14 @@
 package randomuser.com.presentation.screen;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.List;
@@ -16,7 +20,8 @@ import randomuser.com.presentation.presenter.UserListPresenter;
 import randomuser.com.presentation.ui.EndlessRecyclerViewScrollListener;
 
 public class UserList extends AppCompatActivity
-    implements UserListPresenter.UserListView, UserListAdapter.OnItemClickListener {
+    implements UserListPresenter.UserListView, UserListAdapter.OnItemClickListener,
+    SearchView.OnQueryTextListener {
   @Bind(R.id.user_list) RecyclerView userList;
   private UserListPresenter presenter;
   private UserListAdapter adapter;
@@ -96,5 +101,28 @@ public class UserList extends AppCompatActivity
   @Override
   public void onDeleteUser(UserViewModel userSelected) {
     presenter.onClickDeleteUser(userSelected);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+
+    final MenuItem searchItem = menu.findItem(R.id.action_search);
+    final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+    searchView.setOnQueryTextListener(this);
+
+    return true;
+  }
+
+  @Override
+  public boolean onQueryTextSubmit(String query) {
+    return false;
+  }
+
+  @Override
+  public boolean onQueryTextChange(String newText) {
+    presenter.onQueryTextChange(newText);
+
+    return false;
   }
 }

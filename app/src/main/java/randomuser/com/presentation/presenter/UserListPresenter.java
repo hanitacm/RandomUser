@@ -4,6 +4,7 @@ import android.util.Log;
 import com.domain.model.UserModelCollection;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
+import com.domain.usecases.SearchUsersUseCase;
 import java.util.List;
 import randomuser.com.presentation.model.UserViewModel;
 import randomuser.com.presentation.model.mapper.UserViewModelMapper;
@@ -11,7 +12,6 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class UserListPresenter {
@@ -24,12 +24,16 @@ public class UserListPresenter {
   private Subscription getRandomUserSubscription;
   private DeleteUserUseCase deleteUserUseCase;
   private Subscription deleteUserSubscription;
+  private SearchUsersUseCase searchUsersUseCase;
+  private Subscription searchUserSubscription;
 
   public UserListPresenter(GetRandomUsersUseCase getRandomUsersUseCase,
-      UserViewModelMapper userViewModelMapper, DeleteUserUseCase deleteUserUseCase) {
+      UserViewModelMapper userViewModelMapper, DeleteUserUseCase deleteUserUseCase,
+      SearchUsersUseCase searchUsersUseCase) {
     this.getRandomUsersUseCase = getRandomUsersUseCase;
     this.userViewModelMapper = userViewModelMapper;
     this.deleteUserUseCase = deleteUserUseCase;
+    this.searchUsersUseCase = searchUsersUseCase;
   }
 
   public void onStart(UserListView view) {
@@ -53,9 +57,7 @@ public class UserListPresenter {
 
           @Override
           public void onNext(UserModelCollection userModelCollection) {
-            if (userModelCollection.getUsers().size() > 0) {
-              view.renderUserList(userViewModelMapper.call(userModelCollection));
-            }
+            showUsers(userModelCollection);
           }
         });
   }
@@ -68,6 +70,7 @@ public class UserListPresenter {
     this.view = null;
     if (getRandomUserSubscription != null) getRandomUserSubscription.unsubscribe();
     if (deleteUserSubscription != null) deleteUserSubscription.unsubscribe();
+    if (searchUserSubscription != null) searchUserSubscription.unsubscribe();
   }
 
   public void onClickUser(UserViewModel selectedUser) {
@@ -75,12 +78,29 @@ public class UserListPresenter {
   }
 
   public void onClickDeleteUser(UserViewModel userSelected) {
-    deleteUserSubscription =  deleteUserUseCase.deleteUser(userSelected.getEmail())
+    deleteUserSubscription = deleteUserUseCase.deleteUser(userSelected.getEmail())
         .subscribeOn(schedulerSubscribe)
         .observeOn(scheduler)
         .subscribe(aBoolean -> {
-          if(aBoolean){ view.deleteUserList(userSelected);}
+          if (aBoolean) {
+            view.deleteUserList(userSelected);
+          }
         });
+  }
+
+  public void onQueryTextChange(String queryText) {
+    if (!queryText.equals("")) {
+      searchUserSubscription = searchUsersUseCase.searchUsers(queryText)
+          .subscribeOn(schedulerSubscribe)
+          .observeOn(scheduler)
+          .subscribe(this::showUsers);
+    }
+  }
+
+  private void showUsers(UserModelCollection userModelCollection) {
+    if (userModelCollection.getUsers().size() > 0) {
+      view.renderUserList(userViewModelMapper.call(userModelCollection));
+    }
   }
 
   public interface UserListView {

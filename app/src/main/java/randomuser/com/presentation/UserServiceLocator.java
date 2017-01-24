@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import com.domain.usecases.GetUserDetailUseCase;
+import com.domain.usecases.SearchUsersUseCase;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;
 import randomuser.com.data.repository.datasource.api.RandomUserApi;
@@ -25,7 +26,12 @@ public class UserServiceLocator {
 
   public UserListPresenter getUserListPresenter() {
     return new UserListPresenter(provideGetRandomUsersUseCase(), provideUserViewModelMapper(),
-        provideDeleteUserUseCase());
+        provideDeleteUserUseCase(), provideSearchUsersUseCase());
+  }
+
+  @NonNull
+  private SearchUsersUseCase provideSearchUsersUseCase() {
+    return new SearchUsersUseCase(provideUserRepository());
   }
 
   @NonNull
