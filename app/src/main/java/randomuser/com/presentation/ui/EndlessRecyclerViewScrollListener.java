@@ -1,4 +1,4 @@
-package randomuser.com.randomuser;
+package randomuser.com.presentation.ui;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

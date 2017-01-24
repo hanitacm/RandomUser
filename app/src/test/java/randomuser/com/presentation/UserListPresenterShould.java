@@ -1,10 +1,10 @@
-package randomuser.com.randomuser;
+package randomuser.com.presentation;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import randomuser.com.presentation.presenter.UserListPresenter;
 
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class UserListPresenterShould {

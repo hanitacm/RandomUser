@@ -1,13 +1,20 @@
-package randomuser.com.randomuser;
+package randomuser.com.presentation.model;
 
 import android.net.Uri;
 
-public class User {
+public class UserViewModel {
 
   private Uri photo;
   private String name;
-  private String  email;
+  private String email;
   private String phone;
+
+  public UserViewModel(String fullName, String email, String phone, Uri thumbnail) {
+    this.photo = thumbnail;
+    this.name = fullName;
+    this.email = email;
+    this.phone = phone;
+  }
 
   public Uri getPhoto() {
     return photo;

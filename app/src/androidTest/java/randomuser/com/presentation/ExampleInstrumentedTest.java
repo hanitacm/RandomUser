@@ -1,4 +1,4 @@
-package randomuser.com.randomuser;
+package randomuser.com.presentation;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
