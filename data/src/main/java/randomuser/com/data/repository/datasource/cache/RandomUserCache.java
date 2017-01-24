@@ -1,5 +1,6 @@
 package randomuser.com.data.repository.datasource.cache;
 
+import android.support.annotation.NonNull;
 import java.util.List;
 import randomuser.com.data.model.UserDataModel;
 import randomuser.com.data.model.UserDataModelCollection;
@@ -16,8 +17,7 @@ public class RandomUserCache {
     boolean result = true;
     try {
       for (UserDataModel user : userDataModelCollection) {
-        String fileName =
-            user.getName().getFirst() + "_" + user.getName().getLast() + "_" + user.getEmail();
+        String fileName = getKey(user);
         fileManager.write(fileName, user);
       }
     } catch (Exception e) {
@@ -25,6 +25,11 @@ public class RandomUserCache {
     }
 
     return Observable.just(result);
+  }
+
+  @NonNull
+  private String getKey(UserDataModel user) {
+    return user.getName().getFirst() + "_" + user.getName().getLast() + "_" + user.getEmail();
   }
 
   public Observable<UserDataModel> getUserDetail(String name) {
@@ -41,5 +46,14 @@ public class RandomUserCache {
 
   public Observable<UserDataModelCollection> findUsers(String queryText) {
     return fileManager.findUsers(queryText);
+  }
+
+  public Observable<UserDataModelCollection> getUserList() {
+    return fileManager.readAllUsers();
+  }
+
+  public Boolean isCached(UserDataModel user) {
+    return fileManager.findUsers(getKey(user)).map(userDataModelCollection ->
+        userDataModelCollection.getResults().size() > 0).toBlocking().first();
   }
 }

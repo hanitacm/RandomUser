@@ -2,29 +2,36 @@ package randomuser.com.data.repository.datasource.sharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import java.util.Map;
 import rx.Observable;
 
 public class RandomUserPreferences {
 
-  private static final String USER_ID = "UserId";
   private static final String DELETED_USER = "DeletedUser";
-  private final Context context;
+  private static RandomUserPreferences instance;
   private SharedPreferences preferences;
 
   private RandomUserPreferences(Context context) {
-    this.context = context;
+    this.preferences = context.getSharedPreferences(DELETED_USER, Context.MODE_PRIVATE);
   }
 
   public static RandomUserPreferences getInstance(Context context) {
-    return new RandomUserPreferences(context);
+    if (instance == null) {
+      instance = new RandomUserPreferences(context);
+    }
+    return instance;
   }
 
   public Observable<Boolean> saveDeleteUser(String name) {
-    preferences = context.getSharedPreferences(DELETED_USER, Context.MODE_PRIVATE);
+
     SharedPreferences.Editor editor = preferences.edit();
 
-    editor.putString(USER_ID, name);
+    editor.putString(name, "");
 
     return Observable.just(editor.commit());
+  }
+
+  public Observable<? extends Map<String, ?>> getDeletedUser() {
+       return rx.Observable.just(preferences.getAll());
   }
 }

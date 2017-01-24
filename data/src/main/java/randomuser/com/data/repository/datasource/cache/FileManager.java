@@ -1,6 +1,7 @@
 package randomuser.com.data.repository.datasource.cache;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,6 +77,12 @@ public class FileManager {
     return outObject;
   }
 
+  public Observable<UserDataModelCollection> readAllUsers() {
+    File[] files = context.getFilesDir().listFiles();
+
+   return  getUserDataModelCollectionFromDir(files);
+  }
+
   public Observable<Boolean> delete(String name) {
 
     File[] files = context.getFilesDir().listFiles((file, s) -> {
@@ -96,6 +103,11 @@ public class FileManager {
       return s.contains(queryText);
     });
 
+    return getUserDataModelCollectionFromDir(files);
+  }
+
+  @NonNull
+  private Observable<UserDataModelCollection> getUserDataModelCollectionFromDir(File[] files) {
     List<UserDataModel> list = new ArrayList<>();
     for (File file : files) {
       list.add((UserDataModel) getObjectFromFile(file));

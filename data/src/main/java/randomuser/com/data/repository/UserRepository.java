@@ -2,6 +2,10 @@ package randomuser.com.data.repository;
 
 import com.domain.model.UserModel;
 import com.domain.model.UserModelCollection;
+import java.util.ArrayList;
+import java.util.List;
+import randomuser.com.data.model.UserDataModel;
+import randomuser.com.data.model.UserDataModelCollection;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.datasource.api.RandomUserApi;
 import randomuser.com.data.repository.datasource.cache.RandomUserCache;
@@ -25,9 +29,29 @@ public class UserRepository implements com.domain.usecases.UserRepository {
   }
 
   public rx.Observable<UserModelCollection> getRandomUsers() {
-    return randomUserApi.getRandomUsers()
+    Observable<List<UserDataModel>> apiUserDataModelList = randomUserApi.getRandomUsers()
+        .map(UserDataModelCollection::getResults);
+
+    Observable<List<UserDataModel>> cacheUserDataModelList = randomUserCache.getUserList()
+        .map(UserDataModelCollection::getResults);
+
+    return Observable.zip(apiUserDataModelList, cacheUserDataModelList,
+        randomUserPreferences.getDeletedUser(),
+        (userDataModelApiList, userDataModelCacheList, stringMap) -> {
+          List<UserDataModel> users = new ArrayList<>();
+          for(UserDataModel user : userDataModelApiList){
+             if(!randomUserCache.isCached(user) && !stringMap.containsKey(user.getEmail())){
+               users.add(user);
+             }
+          }
+          UserDataModelCollection userDataModelCollection = new UserDataModelCollection();
+          userDataModelCollection.setResults(users);
+
+          return userDataModelCollection;
+        })
         .doOnNext(userDataModelCollection -> randomUserCache.saveUserList(
             userDataModelCollection.getResults()))
+        .flatMap(cachedUserDataModelList ->  randomUserCache.getUserList())
         .map(userDataModelMapper);
   }
 
