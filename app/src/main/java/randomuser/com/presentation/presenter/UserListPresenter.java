@@ -2,6 +2,7 @@ package randomuser.com.presentation.presenter;
 
 import android.util.Log;
 import com.domain.model.UserModelCollection;
+import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import java.util.List;
 import randomuser.com.presentation.model.UserViewModel;
@@ -10,6 +11,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class UserListPresenter {
@@ -20,11 +22,14 @@ public class UserListPresenter {
   private Scheduler schedulerSubscribe = Schedulers.io();
   private Scheduler scheduler = AndroidSchedulers.mainThread();
   private Subscription getRandomUserSubscription;
+  private DeleteUserUseCase deleteUserUseCase;
+  private Subscription deleteUserSubscription;
 
   public UserListPresenter(GetRandomUsersUseCase getRandomUsersUseCase,
-      UserViewModelMapper userViewModelMapper) {
+      UserViewModelMapper userViewModelMapper, DeleteUserUseCase deleteUserUseCase) {
     this.getRandomUsersUseCase = getRandomUsersUseCase;
     this.userViewModelMapper = userViewModelMapper;
+    this.deleteUserUseCase = deleteUserUseCase;
   }
 
   public void onStart(UserListView view) {
@@ -62,11 +67,20 @@ public class UserListPresenter {
   public void onStop() {
     this.view = null;
     if (getRandomUserSubscription != null) getRandomUserSubscription.unsubscribe();
-
+    if (deleteUserSubscription != null) deleteUserSubscription.unsubscribe();
   }
 
   public void onClickUser(UserViewModel selectedUser) {
     view.navigateToUserDetail(selectedUser.getEmail());
+  }
+
+  public void onClickDeleteUser(UserViewModel userSelected) {
+    deleteUserSubscription =  deleteUserUseCase.deleteUser(userSelected.getEmail())
+        .subscribeOn(schedulerSubscribe)
+        .observeOn(scheduler)
+        .subscribe(aBoolean -> {
+          if(aBoolean){ view.deleteUserList(userSelected);}
+        });
   }
 
   public interface UserListView {
@@ -74,5 +88,7 @@ public class UserListPresenter {
     void renderUserList(List<UserViewModel> users);
 
     void navigateToUserDetail(String userId);
+
+    void deleteUserList(UserViewModel userSelected);
   }
 }

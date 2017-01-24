@@ -2,6 +2,7 @@ package randomuser.com.presentation;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import com.domain.usecases.GetUserDetailUseCase;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
@@ -9,6 +10,7 @@ import randomuser.com.data.repository.UserRepository;
 import randomuser.com.data.repository.datasource.api.RandomUserApi;
 import randomuser.com.data.repository.datasource.cache.FileManager;
 import randomuser.com.data.repository.datasource.cache.RandomUserCache;
+import randomuser.com.data.repository.datasource.sharedPreferences.RandomUserPreferences;
 import randomuser.com.presentation.model.mapper.UserDetailViewModelMapper;
 import randomuser.com.presentation.model.mapper.UserViewModelMapper;
 import randomuser.com.presentation.presenter.UserDetailPresenter;
@@ -22,7 +24,13 @@ public class UserServiceLocator {
   }
 
   public UserListPresenter getUserListPresenter() {
-    return new UserListPresenter(provideGetRandomUsersUseCase(), provideUserViewModelMapper());
+    return new UserListPresenter(provideGetRandomUsersUseCase(), provideUserViewModelMapper(),
+        provideDeleteUserUseCase());
+  }
+
+  @NonNull
+  private DeleteUserUseCase provideDeleteUserUseCase() {
+    return new DeleteUserUseCase(provideUserRepository());
   }
 
   public UserDetailPresenter getUserDetailPresenter() {
@@ -48,7 +56,12 @@ public class UserServiceLocator {
   @NonNull
   private UserRepository provideUserRepository() {
     return new UserRepository(provideRandomUserApi(), provideUserDataModelMapper(),
-        provideRandomUserCache());
+        provideRandomUserCache(), provideRandomUserPreferences());
+  }
+
+  @NonNull
+  private RandomUserPreferences provideRandomUserPreferences() {
+    return RandomUserPreferences.getInstance(context);
   }
 
   @NonNull
@@ -68,6 +81,6 @@ public class UserServiceLocator {
 
   @NonNull
   private FileManager provideFileManager() {
-    return new FileManager(context);
+    return FileManager.getInstance(context);
   }
 }

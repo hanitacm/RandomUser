@@ -8,4 +8,6 @@ public interface UserRepository {
   rx.Observable<UserModelCollection> getRandomUsers();
 
   Observable<UserModel> getUserDetail(String name);
+
+  Observable<Boolean> deleteUser(String name);
 }

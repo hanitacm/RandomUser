@@ -84,7 +84,17 @@ public class UserList extends AppCompatActivity
   }
 
   @Override
+  public void deleteUserList(UserViewModel userSelected) {
+    adapter.deleteItem(userSelected);
+  }
+
+  @Override
   public void onClickUser(UserViewModel userSelected) {
     presenter.onClickUser(userSelected);
+  }
+
+  @Override
+  public void onDeleteUser(UserViewModel userSelected) {
+    presenter.onClickDeleteUser(userSelected);
   }
 }

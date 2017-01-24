@@ -32,4 +32,9 @@ public class RandomUserCache {
 
     return Observable.just(userData);
   }
+
+  public Observable<Boolean> deleteUser(String name) {
+
+    return fileManager.delete(name);
+  }
 }
