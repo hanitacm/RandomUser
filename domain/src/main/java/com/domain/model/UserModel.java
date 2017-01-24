@@ -14,6 +14,7 @@ public class UserModel {
   String registered;
   String phone;
   String thumbnail;
+  String photo;
 
   public String getGender() {
     return gender;
@@ -101,5 +102,13 @@ public class UserModel {
 
   public void setThumbnail(String thumbnail) {
     this.thumbnail = thumbnail;
+  }
+
+  public String getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(String photo) {
+    this.photo = photo;
   }
 }

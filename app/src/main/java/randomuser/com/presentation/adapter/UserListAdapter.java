@@ -18,11 +18,13 @@ import randomuser.com.presentation.model.UserViewModel;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLisViewHolder> {
 
   private final Context context;
-  ArrayList<UserViewModel> users;
+  private ArrayList<UserViewModel> users;
+  private OnItemClickListener onItemClickListener;
 
   public UserListAdapter(Context context) {
     this.users = new ArrayList<>();
     this.context = context;
+
   }
 
   @Override
@@ -35,9 +37,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
   @Override
   public void onBindViewHolder(UserLisViewHolder holder, int position) {
     UserViewModel userData = users.get(position);
-    //Bitmap bmp = BitmapFactory.decodeStream(userData.getPhoto().toString().open .getInputStream());
     Picasso.with(context).load(userData.getPhoto()).into(holder.photo);
-    //holder.photo.setImageBitmap(bmp);
+    holder.photo.setOnClickListener(
+        view -> UserListAdapter.this.onItemClickListener.onClickUser(userData));
     holder.name.setText(userData.getName());
     holder.email.setText(userData.getEmail());
     holder.phone.setText(userData.getPhone());
@@ -51,6 +53,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
   public void setUsers(List<UserViewModel> o) {
     users.addAll(o);
     notifyDataSetChanged();
+  }
+
+  public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    this.onItemClickListener = onItemClickListener;
+  }
+
+  public interface OnItemClickListener {
+    void onClickUser(UserViewModel userSelected);
   }
 
   public class UserLisViewHolder extends RecyclerView.ViewHolder {

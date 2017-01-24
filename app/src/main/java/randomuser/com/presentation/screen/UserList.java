@@ -7,21 +7,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.domain.usecases.GetRandomUsersUseCase;
 import java.util.List;
-import randomuser.com.data.model.mapper.UserDataModelMapper;
-import randomuser.com.data.repository.UserRepository;
-import randomuser.com.data.repository.datasource.api.RandomUserApi;
-import randomuser.com.data.repository.datasource.cache.FileManager;
-import randomuser.com.data.repository.datasource.cache.RandomUserCache;
 import randomuser.com.presentation.R;
+import randomuser.com.presentation.UserServiceLocator;
 import randomuser.com.presentation.adapter.UserListAdapter;
 import randomuser.com.presentation.model.UserViewModel;
-import randomuser.com.presentation.model.mapper.UserViewModelMapper;
 import randomuser.com.presentation.presenter.UserListPresenter;
 import randomuser.com.presentation.ui.EndlessRecyclerViewScrollListener;
 
-public class UserList extends AppCompatActivity implements UserListPresenter.UserListView {
+public class UserList extends AppCompatActivity
+    implements UserListPresenter.UserListView, UserListAdapter.OnItemClickListener {
   @Bind(R.id.user_list) RecyclerView userList;
   private UserListPresenter presenter;
   private UserListAdapter adapter;
@@ -40,6 +35,8 @@ public class UserList extends AppCompatActivity implements UserListPresenter.Use
 
     adapter = new UserListAdapter(this);
     adapter.setHasStableIds(true);
+    adapter.setOnItemClickListener(this);
+
     userList.setAdapter(adapter);
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     userList.setLayoutManager(layoutManager);
@@ -53,10 +50,8 @@ public class UserList extends AppCompatActivity implements UserListPresenter.Use
   }
 
   private void createPresenter() {
-    presenter = new UserListPresenter(new GetRandomUsersUseCase(
-        new UserRepository(new RandomUserApi(), new UserDataModelMapper(),
-            new RandomUserCache(new FileManager(getApplicationContext())))),
-        new UserViewModelMapper());
+    UserServiceLocator userServiceLocator = new UserServiceLocator(getApplicationContext());
+    presenter = userServiceLocator.getUserListPresenter();
   }
 
   @Override
@@ -81,5 +76,15 @@ public class UserList extends AppCompatActivity implements UserListPresenter.Use
   public void renderUserList(List<UserViewModel> users) {
 
     adapter.setUsers(users);
+  }
+
+  @Override
+  public void navigateToUserDetail(String userId) {
+    UserDetail.open(this, userId);
+  }
+
+  @Override
+  public void onClickUser(UserViewModel userSelected) {
+    presenter.onClickUser(userSelected);
   }
 }

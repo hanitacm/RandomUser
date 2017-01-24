@@ -30,7 +30,7 @@ public class UserDataModelMapper implements Func1<UserDataModelCollection, UserM
   }
 
   @NonNull
-  private UserModel mapUserProperties(UserDataModel user) {
+  public UserModel mapUserProperties(UserDataModel user) {
     UserModel userModel = new UserModel();
     userModel.setGender(user.getGender());
     userModel.setFirsName(user.getName().getFirst());
@@ -43,6 +43,7 @@ public class UserDataModelMapper implements Func1<UserDataModelCollection, UserM
     userModel.setPhone(user.getPhone());
     userModel.setRegistered(user.getRegistered());
     userModel.setThumbnail(user.getPicture().getMedium());
+    userModel.setPhoto(user.getPicture().getLarge());
     return userModel;
   }
 }

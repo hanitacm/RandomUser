@@ -1,6 +1,7 @@
 package randomuser.com.data.repository.datasource.cache;
 
 import android.content.Context;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class FileManager {
     ObjectOutputStream objectOutputStream = null;
 
     try {
-      outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+      outputStream = new FileOutputStream(new File(context.getFilesDir() + "/" + fileName));
       objectOutputStream = new ObjectOutputStream(outputStream);
       objectOutputStream.writeObject(fileContent);
       objectOutputStream.close();
@@ -59,7 +60,7 @@ public class FileManager {
     Object outObject = null;
 
     try {
-      inputStream = context.openFileInput(fileName);
+      inputStream = new FileInputStream(new File(context.getFilesDir() + "/" + fileName));
       objectInputStream = new ObjectInputStream(inputStream);
       outObject = objectInputStream.readObject();
       objectInputStream.close();

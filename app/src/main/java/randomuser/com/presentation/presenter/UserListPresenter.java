@@ -21,14 +21,14 @@ public class UserListPresenter {
   private Scheduler scheduler = AndroidSchedulers.mainThread();
   private Subscription getRandomUserSubscription;
 
-  public UserListPresenter(GetRandomUsersUseCase getRandomUsersUseCase, UserViewModelMapper userViewModelMapper) {
+  public UserListPresenter(GetRandomUsersUseCase getRandomUsersUseCase,
+      UserViewModelMapper userViewModelMapper) {
     this.getRandomUsersUseCase = getRandomUsersUseCase;
     this.userViewModelMapper = userViewModelMapper;
   }
 
   public void onStart(UserListView view) {
     this.view = view;
-    if (getRandomUserSubscription != null) getRandomUserSubscription.unsubscribe();
   }
 
   public void getRandomUsers() {
@@ -43,7 +43,7 @@ public class UserListPresenter {
 
           @Override
           public void onError(Throwable e) {
-              Log.e("RandomUser",e.getMessage());
+            Log.e("RandomUser", e.getMessage());
           }
 
           @Override
@@ -61,10 +61,18 @@ public class UserListPresenter {
 
   public void onStop() {
     this.view = null;
+    if (getRandomUserSubscription != null) getRandomUserSubscription.unsubscribe();
+
+  }
+
+  public void onClickUser(UserViewModel selectedUser) {
+    view.navigateToUserDetail(selectedUser.getEmail());
   }
 
   public interface UserListView {
 
     void renderUserList(List<UserViewModel> users);
+
+    void navigateToUserDetail(String userId);
   }
 }

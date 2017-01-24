@@ -1,9 +1,11 @@
 package randomuser.com.data.repository;
 
+import com.domain.model.UserModel;
 import com.domain.model.UserModelCollection;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.datasource.api.RandomUserApi;
 import randomuser.com.data.repository.datasource.cache.RandomUserCache;
+import rx.Observable;
 
 public class UserRepository implements com.domain.usecases.UserRepository {
 
@@ -23,5 +25,11 @@ public class UserRepository implements com.domain.usecases.UserRepository {
         .doOnNext(userDataModelCollection -> randomUserCache.saveUserList(
             userDataModelCollection.getResults()))
         .map(userDataModelMapper);
+  }
+
+  @Override
+  public Observable<UserModel> getUserDetail(String name) {
+    return randomUserCache.getUserDetail(name)
+        .map(userDataModelMapper::mapUserProperties);
   }
 }
