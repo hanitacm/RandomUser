@@ -1,6 +1,8 @@
 package randomuser.com.data.model;
 
-public class UserPictureDataModel {
+import java.io.Serializable;
+
+public class UserPictureDataModel implements Serializable {
   String large;
   String medium;
   String thumbnail;

@@ -1,7 +1,8 @@
 package randomuser.com.data.model;
 
+import java.io.Serializable;
 
-public class UserNameDataModel {
+public class UserNameDataModel implements Serializable {
   String title;
   String first;
   String last;

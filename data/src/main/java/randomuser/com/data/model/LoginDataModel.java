@@ -1,6 +1,8 @@
 package randomuser.com.data.model;
 
-public class LoginDataModel {
+import java.io.Serializable;
+
+public class LoginDataModel implements Serializable {
   private String username;
 
   private String sha256;

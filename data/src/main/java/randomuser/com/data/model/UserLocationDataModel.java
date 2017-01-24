@@ -1,7 +1,8 @@
 package randomuser.com.data.model;
 
+import java.io.Serializable;
 
-public class UserLocationDataModel {
+public class UserLocationDataModel implements Serializable {
   String street;
   String city;
   String state;
