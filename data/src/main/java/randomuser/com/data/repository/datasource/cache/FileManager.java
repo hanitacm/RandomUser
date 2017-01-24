@@ -7,11 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import rx.Observable;
 
 public class FileManager {
   private final Context context;
 
-  public FileManager(Context context) {
+  private FileManager(Context context) {
     this.context = context;
   }
 
@@ -19,19 +20,6 @@ public class FileManager {
     return new FileManager(context);
   }
 
-  //public void write(File file, String fileContent) {
-  //  if (!file.exists()) {
-  //    try {
-  //      FileWriter writer = new FileWriter(file);
-  //      writer.write(fileContent);
-  //      writer.close();
-  //    } catch (IOException e) {
-  //      e.printStackTrace();
-  //    }
-  //  }
-  //
-  //
-  //}
   public void write(String fileName, Object fileContent) {
     FileOutputStream outputStream = null;
     ObjectOutputStream objectOutputStream = null;
@@ -79,23 +67,21 @@ public class FileManager {
     return outObject;
   }
 
-  //public String read(File file) {
-  //  StringBuilder fileContentBuilder = new StringBuilder();
-  //  if (file.exists()) {
-  //    String stringLine;
-  //    try {
-  //      FileReader fileReader = new FileReader(file);
-  //      BufferedReader bufferedReader = new BufferedReader(fileReader);
-  //      while ((stringLine = bufferedReader.readLine()) != null) {
-  //        fileContentBuilder.append(stringLine + "\n");
-  //      }
-  //      bufferedReader.close();
-  //      fileReader.close();
-  //    } catch (IOException e) {
-  //      e.printStackTrace();
-  //    }
-  //  }
-  //
-  //  return fileContentBuilder.toString();
-  //}
+  public Observable<Boolean> delete(String name) {
+
+    File[] files = context.getFilesDir().listFiles((file, s) -> {
+      return s.equals(name);
+    });
+
+    boolean result = false;
+
+    if (files.length > 0) {
+      result = files[0].delete();
+    }
+
+    return Observable.just(result);
+  }
 }
+
+
+
