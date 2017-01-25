@@ -39,7 +39,6 @@ public class UserList extends AppCompatActivity
     ButterKnife.bind(this);
 
     adapter = new UserListAdapter(this);
-    adapter.setHasStableIds(true);
     adapter.setOnItemClickListener(this);
 
     userList.setAdapter(adapter);

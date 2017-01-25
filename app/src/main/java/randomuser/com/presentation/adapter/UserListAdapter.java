@@ -13,7 +13,6 @@ import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import randomuser.com.presentation.R;
 import randomuser.com.presentation.model.UserViewModel;
 
@@ -44,8 +43,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     holder.name.setText(userData.getName());
     holder.email.setText(userData.getEmail());
     holder.phone.setText(userData.getPhone());
-    holder.delete.setOnClickListener(
-        view -> UserListAdapter.this.onItemClickListener.onDeleteUser(userData));
+    holder.delete.setOnClickListener(view -> {
+      if (onItemClickListener != null) {
+        onItemClickListener.onDeleteUser(userData);
+      }
+    });
   }
 
   @Override
