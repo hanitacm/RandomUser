@@ -49,7 +49,7 @@ public class UserList extends AppCompatActivity
     userList.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
       @Override
       public void onLoadMore(int totalItemCount) {
-        presenter.getMoreUsers();
+        presenter.getRandomUsers();
       }
     });
   }

@@ -54,6 +54,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
   }
 
   public void setUsers(List<UserViewModel> o) {
+    users.clear();
     users.addAll(o);
     notifyDataSetChanged();
   }

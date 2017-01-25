@@ -3,7 +3,6 @@ package randomuser.com.data.repository.datasource.cache;
 import android.support.annotation.NonNull;
 import java.util.List;
 import randomuser.com.data.model.UserDataModel;
-import randomuser.com.data.model.UserDataModelCollection;
 import rx.Observable;
 
 public class RandomUserCache {
@@ -44,16 +43,11 @@ public class RandomUserCache {
     return fileManager.delete(name);
   }
 
-  public Observable<UserDataModelCollection> findUsers(String queryText) {
+  public Observable<List<UserDataModel>> findUsers(String queryText) {
     return fileManager.findUsers(queryText);
   }
 
-  public Observable<UserDataModelCollection> getUserList() {
+  public Observable<List<UserDataModel>> getUserList() {
     return fileManager.readAllUsers();
-  }
-
-  public Boolean isCached(UserDataModel user) {
-    return fileManager.findUsers(getKey(user)).map(userDataModelCollection ->
-        userDataModelCollection.getResults().size() > 0).toBlocking().first();
   }
 }

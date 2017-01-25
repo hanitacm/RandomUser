@@ -31,7 +31,7 @@ public class RandomUserPreferences {
     return Observable.just(editor.commit());
   }
 
-  public Observable<? extends Map<String, ?>> getDeletedUser() {
+  public Observable<Map<String, ?>> getDeletedUser() {
        return rx.Observable.just(preferences.getAll());
   }
 }

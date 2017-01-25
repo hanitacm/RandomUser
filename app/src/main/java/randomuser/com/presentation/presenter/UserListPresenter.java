@@ -1,6 +1,7 @@
 package randomuser.com.presentation.presenter;
 
 import android.util.Log;
+import com.domain.model.UserModel;
 import com.domain.model.UserModelCollection;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
@@ -44,7 +45,7 @@ public class UserListPresenter {
     getRandomUserSubscription = getRandomUsersUseCase.getRandomUsers()
         .subscribeOn(schedulerSubscribe)
         .observeOn(scheduler)
-        .subscribe(new Subscriber<UserModelCollection>() {
+        .subscribe(new Subscriber<List<UserModel>>() {
           @Override
           public void onCompleted() {
 
@@ -56,14 +57,10 @@ public class UserListPresenter {
           }
 
           @Override
-          public void onNext(UserModelCollection userModelCollection) {
+          public void onNext(List<UserModel> userModelCollection) {
             showUsers(userModelCollection);
           }
         });
-  }
-
-  public void getMoreUsers() {
-
   }
 
   public void onStop() {
@@ -97,8 +94,8 @@ public class UserListPresenter {
     }
   }
 
-  private void showUsers(UserModelCollection userModelCollection) {
-    if (userModelCollection.getUsers().size() > 0) {
+  private void showUsers(List<UserModel> userModelCollection) {
+    if (userModelCollection.size() > 0) {
       view.renderUserList(userViewModelMapper.call(userModelCollection));
     }
   }

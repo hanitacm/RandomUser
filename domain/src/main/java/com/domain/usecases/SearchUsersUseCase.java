@@ -1,16 +1,17 @@
 package com.domain.usecases;
 
-import com.domain.model.UserModelCollection;
+import com.domain.model.UserModel;
+import java.util.List;
 
 public class SearchUsersUseCase {
-  private final UserRepository userRepository;
+  private final FindUsersAgent findUsersAgent;
 
-  public SearchUsersUseCase(UserRepository userRepository) {
+  public SearchUsersUseCase(FindUsersAgent findUsersAgent) {
 
-    this.userRepository = userRepository;
+    this.findUsersAgent = findUsersAgent;
   }
 
-  public rx.Observable<UserModelCollection> searchUsers(String queryText) {
-    return userRepository.searchUsers(queryText);
+  public rx.Observable<List<UserModel>> searchUsers(String queryText) {
+    return findUsersAgent.searchUsers(queryText);
   }
 }

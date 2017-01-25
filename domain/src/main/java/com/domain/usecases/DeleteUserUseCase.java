@@ -3,14 +3,15 @@ package com.domain.usecases;
 import rx.Observable;
 
 public class DeleteUserUseCase {
-  private UserRepository userRepository;
 
-  public DeleteUserUseCase(UserRepository userRepository) {
+  private final DeleteUserAgent deleteUserAgent;
 
-    this.userRepository = userRepository;
+  public DeleteUserUseCase(DeleteUserAgent deleteUserAgent) {
+
+    this.deleteUserAgent = deleteUserAgent;
   }
 
   public Observable<Boolean> deleteUser(String email) {
-    return userRepository.deleteUser(email);
+    return deleteUserAgent.deleteUser(email);
   }
 }

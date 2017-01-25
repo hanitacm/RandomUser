@@ -6,12 +6,7 @@ import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import com.domain.usecases.GetUserDetailUseCase;
 import com.domain.usecases.SearchUsersUseCase;
-import randomuser.com.data.model.mapper.UserDataModelMapper;
-import randomuser.com.data.repository.UserRepository;
-import randomuser.com.data.repository.datasource.api.RandomUserApi;
-import randomuser.com.data.repository.datasource.cache.FileManager;
-import randomuser.com.data.repository.datasource.cache.RandomUserCache;
-import randomuser.com.data.repository.datasource.sharedPreferences.RandomUserPreferences;
+import randomuser.com.data.UserAgentLocator;
 import randomuser.com.presentation.model.mapper.UserDetailViewModelMapper;
 import randomuser.com.presentation.model.mapper.UserViewModelMapper;
 import randomuser.com.presentation.presenter.UserDetailPresenter;
@@ -31,16 +26,22 @@ public class UserServiceLocator {
 
   @NonNull
   private SearchUsersUseCase provideSearchUsersUseCase() {
-    return new SearchUsersUseCase(provideUserRepository());
+    return new SearchUsersUseCase(provideUserAgentLocator().findUsersAgent(context));
+  }
+
+  @NonNull
+  private UserAgentLocator provideUserAgentLocator() {
+    return new UserAgentLocator();
   }
 
   @NonNull
   private DeleteUserUseCase provideDeleteUserUseCase() {
-    return new DeleteUserUseCase(provideUserRepository());
+    return new DeleteUserUseCase(provideUserAgentLocator().deleteUserAgent(context));
   }
 
   public UserDetailPresenter getUserDetailPresenter() {
-    return new UserDetailPresenter(new GetUserDetailUseCase(provideUserRepository()),
+    return new UserDetailPresenter(
+        new GetUserDetailUseCase(provideUserAgentLocator().getUserDetailAgent(context)),
         provideUserDetailViewModelMapper());
   }
 
@@ -56,37 +57,6 @@ public class UserServiceLocator {
 
   @NonNull
   private GetRandomUsersUseCase provideGetRandomUsersUseCase() {
-    return new GetRandomUsersUseCase(provideUserRepository());
-  }
-
-  @NonNull
-  private UserRepository provideUserRepository() {
-    return new UserRepository(provideRandomUserApi(), provideUserDataModelMapper(),
-        provideRandomUserCache(), provideRandomUserPreferences());
-  }
-
-  @NonNull
-  private RandomUserPreferences provideRandomUserPreferences() {
-    return RandomUserPreferences.getInstance(context);
-  }
-
-  @NonNull
-  private UserDataModelMapper provideUserDataModelMapper() {
-    return new UserDataModelMapper();
-  }
-
-  @NonNull
-  private RandomUserApi provideRandomUserApi() {
-    return new RandomUserApi();
-  }
-
-  @NonNull
-  private RandomUserCache provideRandomUserCache() {
-    return new RandomUserCache(provideFileManager());
-  }
-
-  @NonNull
-  private FileManager provideFileManager() {
-    return FileManager.getInstance(context);
+    return new GetRandomUsersUseCase(provideUserAgentLocator().getUsersAgent(context));
   }
 }

@@ -1,16 +1,22 @@
 package com.domain.usecases;
 
-import com.domain.model.UserModelCollection;
+import com.domain.model.UserModel;
+import java.util.List;
+import rx.Observable;
 
 public class GetRandomUsersUseCase {
-  private final UserRepository userRepository;
+  private final GetUsersAgent getUsersAgent;
 
-  public GetRandomUsersUseCase(UserRepository userRepository) {
+  public GetRandomUsersUseCase(GetUsersAgent getUsersAgent) {
 
-    this.userRepository = userRepository;
+    this.getUsersAgent = getUsersAgent;
   }
 
-  public rx.Observable<UserModelCollection> getRandomUsers() {
-    return userRepository.getRandomUsers();
+  public Observable<List<UserModel>> getRandomUsers() {
+    return getUsersAgent.getUsers()
+        .flatMapIterable(userModels -> userModels)
+        .toSortedList(
+            (userModel, userModel2) -> userModel.getFirsName().compareTo(userModel2.getFirsName()));
   }
 }
+

@@ -12,10 +12,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import randomuser.com.data.model.UserDataModel;
-import randomuser.com.data.model.UserDataModelCollection;
 import rx.Observable;
 
+
+
 public class FileManager {
+  private static FileManager instance;
   private final Context context;
 
   private FileManager(Context context) {
@@ -23,7 +25,10 @@ public class FileManager {
   }
 
   public static FileManager getInstance(Context context) {
-    return new FileManager(context);
+    if (instance == null) {
+      instance = new FileManager(context);
+    }
+    return instance;
   }
 
   public void write(String fileName, Object fileContent) {
@@ -77,10 +82,10 @@ public class FileManager {
     return outObject;
   }
 
-  public Observable<UserDataModelCollection> readAllUsers() {
+  public Observable<List<UserDataModel>> readAllUsers() {
     File[] files = context.getFilesDir().listFiles();
 
-   return  getUserDataModelCollectionFromDir(files);
+    return getUserDataModelCollectionFromDir(files);
   }
 
   public Observable<Boolean> delete(String name) {
@@ -98,7 +103,7 @@ public class FileManager {
     return Observable.just(result);
   }
 
-  public Observable<UserDataModelCollection> findUsers(String queryText) {
+  public Observable<List<UserDataModel>> findUsers(String queryText) {
     File[] files = context.getFilesDir().listFiles((file, s) -> {
       return s.contains(queryText);
     });
@@ -107,15 +112,12 @@ public class FileManager {
   }
 
   @NonNull
-  private Observable<UserDataModelCollection> getUserDataModelCollectionFromDir(File[] files) {
+  private Observable<List<UserDataModel>> getUserDataModelCollectionFromDir(File[] files) {
     List<UserDataModel> list = new ArrayList<>();
     for (File file : files) {
       list.add((UserDataModel) getObjectFromFile(file));
     }
-    UserDataModelCollection users = new UserDataModelCollection();
-    users.setResults(list);
-
-    return Observable.just(users);
+    return Observable.just(list);
   }
 }
 

@@ -9,20 +9,12 @@ import randomuser.com.data.model.UserDataModel;
 import randomuser.com.data.model.UserDataModelCollection;
 import rx.functions.Func1;
 
-public class UserDataModelMapper implements Func1<UserDataModelCollection, UserModelCollection> {
+public class UserDataModelMapper implements Func1<List<UserDataModel>, List<UserModel>> {
   @Override
-  public UserModelCollection call(UserDataModelCollection userDataModelCollection) {
-    UserModelCollection userModelCollection = new UserModelCollection();
-
-    userModelCollection.setUsers(mapUserData(userDataModelCollection));
-
-    return userModelCollection;
-  }
-
-  private List<UserModel> mapUserData(UserDataModelCollection userDataModelCollection) {
+  public List<UserModel> call(List<UserDataModel> userDataModelCollection) {
     List<UserModel> usersModelList = new ArrayList<>();
 
-    for (UserDataModel user : userDataModelCollection.getResults()) {
+    for (UserDataModel user : userDataModelCollection) {
       usersModelList.add(mapUserProperties(user));
     }
 

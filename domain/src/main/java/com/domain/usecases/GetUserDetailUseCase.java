@@ -5,13 +5,13 @@ import rx.Observable;
 
 public class GetUserDetailUseCase {
 
-  private final UserRepository userRepository;
+  private final GetUserDetailAgent getUserDetailAgent;
 
-  public GetUserDetailUseCase(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public GetUserDetailUseCase(GetUserDetailAgent getUserDetailAgent) {
+    this.getUserDetailAgent = getUserDetailAgent;
   }
 
   public Observable<UserModel> getUserDetail(String name) {
-    return userRepository.getUserDetail(name);
+    return getUserDetailAgent.getUserDetail(name);
   }
 }
