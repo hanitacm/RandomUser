@@ -10,8 +10,9 @@ public class DeleteUserAgentImp implements com.domain.usecases.DeleteUserAgent {
     this.userRepository = userRepository;
   }
 
+
   @Override
-  public Observable<Boolean> deleteUser(String name) {
-    return userRepository.deleteUser(name);
+  public Observable<Boolean> deleteUser(String nameUser, String surname, String email) {
+    return userRepository.deleteUser(nameUser,surname,email);
   }
 }

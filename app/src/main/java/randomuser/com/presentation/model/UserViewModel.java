@@ -1,19 +1,26 @@
 package randomuser.com.presentation.model;
 
 import android.net.Uri;
+import java.io.Serializable;
 
-public class UserViewModel {
+public class UserViewModel implements Serializable {
 
   private Uri photo;
   private String name;
   private String email;
   private String phone;
+  private String surname;
 
-  public UserViewModel(String fullName, String email, String phone, Uri thumbnail) {
+  public UserViewModel(String fullName, String email, String phone, Uri thumbnail, String surname) {
     this.photo = thumbnail;
     this.name = fullName;
     this.email = email;
     this.phone = phone;
+    this.surname = surname;
+  }
+
+  public UserViewModel() {
+
   }
 
   public Uri getPhoto() {
@@ -46,5 +53,13 @@ public class UserViewModel {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
   }
 }

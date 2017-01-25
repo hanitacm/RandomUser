@@ -23,9 +23,8 @@ public class UserViewModelMapper implements Func1<List<UserModel>, List<UserView
   }
 
   private UserViewModel mapUserViewModel(UserModel userModel) {
-    String fullName = userModel.getFirsName() + " " + userModel.getLastName();
 
-    return new UserViewModel(fullName, userModel.getEmail(), userModel.getPhone(),
-        Uri.parse(userModel.getThumbnail()));
+    return new UserViewModel(userModel.getFirsName(), userModel.getEmail(), userModel.getPhone(),
+        Uri.parse(userModel.getThumbnail()), userModel.getLastName());
   }
 }

@@ -31,6 +31,10 @@ public class RandomUserCache {
     return user.getName().getFirst() + "_" + user.getName().getLast() + "_" + user.getEmail();
   }
 
+  private String getKey(String nameUser, String surname, String email) {
+    return nameUser + "_" + surname + "_" + email;
+  }
+
   public Observable<UserDataModel> getUserDetail(String name) {
 
     UserDataModel userData = (UserDataModel) fileManager.read(name);
@@ -38,9 +42,9 @@ public class RandomUserCache {
     return Observable.just(userData);
   }
 
-  public Observable<Boolean> deleteUser(String name) {
+  public Observable<Boolean> deleteUser(String nameUser, String surname, String email) {
 
-    return fileManager.delete(name);
+    return fileManager.delete(getKey(nameUser, surname, email));
   }
 
   public Observable<List<UserDataModel>> findUsers(String queryText) {
@@ -50,6 +54,4 @@ public class RandomUserCache {
   public Observable<List<UserDataModel>> getUserList() {
     return fileManager.readAllUsers();
   }
-
-
 }

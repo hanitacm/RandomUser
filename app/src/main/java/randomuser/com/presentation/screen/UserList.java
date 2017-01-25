@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.List;
@@ -22,7 +24,10 @@ import randomuser.com.presentation.ui.EndlessRecyclerViewScrollListener;
 public class UserList extends AppCompatActivity
     implements UserListPresenter.UserListView, UserListAdapter.OnItemClickListener,
     SearchView.OnQueryTextListener {
+
   @Bind(R.id.user_list) RecyclerView userList;
+  @Bind(R.id.progress) ProgressBar loading;
+
   private UserListPresenter presenter;
   private UserListAdapter adapter;
   private EndlessRecyclerViewScrollListener endlessListener;
@@ -85,13 +90,28 @@ public class UserList extends AppCompatActivity
   }
 
   @Override
-  public void navigateToUserDetail(String userId) {
-    UserDetail.open(this, userId);
+  public void navigateToUserDetail(UserViewModel user) {
+    UserDetail.open(this, user);
   }
 
   @Override
   public void deleteUserList(UserViewModel userSelected) {
     adapter.deleteItem(userSelected);
+  }
+
+  @Override
+  public void showLoading() {
+    loading.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void hideLoading() {
+    loading.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void renderNoResults() {
+    //TODO
   }
 
   @Override

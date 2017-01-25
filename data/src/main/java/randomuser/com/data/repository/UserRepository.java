@@ -31,11 +31,11 @@ public class UserRepository {
     return randomUserCache.getUserDetail(name);
   }
 
-  public Observable<Boolean> deleteUser(String name) {
-    return randomUserCache.deleteUser(name).flatMap(isDeletedOnCache -> {
+  public Observable<Boolean> deleteUser(String nameUser, String surname, String email) {
+    return randomUserCache.deleteUser(nameUser, surname, email).flatMap(isDeletedOnCache -> {
       Observable<Boolean> result = Observable.just(false);
       if (isDeletedOnCache) {
-        result = randomUserPreferences.saveDeleteUser(name);
+        result = randomUserPreferences.saveDeleteUser(email);
       }
       return result;
     });

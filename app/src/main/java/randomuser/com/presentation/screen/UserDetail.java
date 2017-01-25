@@ -12,11 +12,12 @@ import com.squareup.picasso.Picasso;
 import randomuser.com.presentation.R;
 import randomuser.com.presentation.UserServiceLocator;
 import randomuser.com.presentation.model.UserDetailViewModel;
+import randomuser.com.presentation.model.UserViewModel;
 import randomuser.com.presentation.presenter.UserDetailPresenter;
 
 public class UserDetail extends AppCompatActivity implements UserDetailPresenter.UserDetailView {
 
-  public static final String USER_ID = "userId";
+  private static final String USER = "user";
   @Bind(R.id.photo) ImageView photo;
   @Bind(R.id.gender) TextView gender;
   @Bind(R.id.fullName) TextView fullName;
@@ -28,10 +29,10 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
 
   private UserDetailPresenter presenter;
 
-  public static void open(Context context, String name) {
+  public static void open(Context context, UserViewModel user) {
     Intent intent = new Intent(context, UserDetail.class);
 
-    intent.putExtra(USER_ID, name);
+    intent.putExtra(USER, user);
 
     context.startActivity(intent);
   }
@@ -62,7 +63,7 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
   @Override
   protected void onResume() {
     super.onResume();
-    String userId = getIntent().getStringExtra(USER_ID);
+    String userId = getIntent().getStringExtra(USER);
     presenter.getUserDetail(userId);
   }
 

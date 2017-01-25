@@ -22,11 +22,11 @@ public class RandomUserPreferences {
     return instance;
   }
 
-  public Observable<Boolean> saveDeleteUser(String name) {
+  public Observable<Boolean> saveDeleteUser(String email) {
 
     SharedPreferences.Editor editor = preferences.edit();
 
-    editor.putString(name, "");
+    editor.putString(email, "");
 
     return Observable.just(editor.commit());
   }

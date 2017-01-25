@@ -11,7 +11,7 @@ public class DeleteUserUseCase {
     this.deleteUserAgent = deleteUserAgent;
   }
 
-  public Observable<Boolean> deleteUser(String email) {
-    return deleteUserAgent.deleteUser(email);
+  public Observable<Boolean> deleteUser(String nameUser, String surname, String email) {
+    return deleteUserAgent.deleteUser(nameUser, surname, email);
   }
 }
