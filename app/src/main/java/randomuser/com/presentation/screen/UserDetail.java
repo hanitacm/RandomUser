@@ -12,12 +12,13 @@ import com.squareup.picasso.Picasso;
 import randomuser.com.presentation.R;
 import randomuser.com.presentation.UserServiceLocator;
 import randomuser.com.presentation.model.UserDetailViewModel;
-import randomuser.com.presentation.model.UserViewModel;
 import randomuser.com.presentation.presenter.UserDetailPresenter;
 
 public class UserDetail extends AppCompatActivity implements UserDetailPresenter.UserDetailView {
 
-  private static final String USER = "user";
+  public static final String NAME = "name";
+  public static final String SURNAME = "surname";
+  public static final String EMAIL = "email";
   @Bind(R.id.photo) ImageView photo;
   @Bind(R.id.gender) TextView gender;
   @Bind(R.id.fullName) TextView fullName;
@@ -29,10 +30,12 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
 
   private UserDetailPresenter presenter;
 
-  public static void open(Context context, UserViewModel user) {
+  public static void open(Context context, String name, String surname, String email) {
     Intent intent = new Intent(context, UserDetail.class);
 
-    intent.putExtra(USER, user);
+    intent.putExtra(NAME, name);
+    intent.putExtra(SURNAME, surname);
+    intent.putExtra(EMAIL, email);
 
     context.startActivity(intent);
   }
@@ -63,8 +66,11 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
   @Override
   protected void onResume() {
     super.onResume();
-    String userId = getIntent().getStringExtra(USER);
-    presenter.getUserDetail(userId);
+    String name = getIntent().getStringExtra(NAME);
+    String surname = getIntent().getStringExtra(SURNAME);
+    String email = getIntent().getStringExtra(EMAIL);
+
+    presenter.getUserDetail(name, surname, email);
   }
 
   @Override

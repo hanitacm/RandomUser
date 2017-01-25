@@ -32,8 +32,8 @@ public class UserDetailPresenter {
     if (getUserDetailSubscription != null) getUserDetailSubscription.unsubscribe();
   }
 
-  public void getUserDetail(String userId) {
-    getUserDetailSubscription = getUserDetailUseCase.getUserDetail(userId)
+  public void getUserDetail(String name, String surname, String email) {
+    getUserDetailSubscription = getUserDetailUseCase.getUserDetail(name, surname, email)
         .map(userDetailViewModelMapper)
         .subscribeOn(schedulerSubscribe)
         .observeOn(scheduler)

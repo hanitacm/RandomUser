@@ -10,7 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.List;
@@ -26,7 +26,7 @@ public class UserList extends AppCompatActivity
     SearchView.OnQueryTextListener {
 
   @Bind(R.id.user_list) RecyclerView userList;
-  @Bind(R.id.progress) ProgressBar loading;
+  @Bind(R.id.progress) FrameLayout loading;
 
   private UserListPresenter presenter;
   private UserListAdapter adapter;
@@ -91,7 +91,7 @@ public class UserList extends AppCompatActivity
 
   @Override
   public void navigateToUserDetail(UserViewModel user) {
-    UserDetail.open(this, user);
+    UserDetail.open(this, user.getName(), user.getSurname(), user.getEmail());
   }
 
   @Override
@@ -101,11 +101,13 @@ public class UserList extends AppCompatActivity
 
   @Override
   public void showLoading() {
+    userList.setVisibility(View.GONE);
     loading.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void hideLoading() {
+    userList.setVisibility(View.VISIBLE);
     loading.setVisibility(View.GONE);
   }
 

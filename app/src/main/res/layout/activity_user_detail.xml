@@ -14,52 +14,46 @@
   <ImageView
       android:layout_width="128dp"
       android:layout_height="128dp"
-      android:id="@+id/photo" />
+      android:id="@+id/photo"
+      android:layout_gravity="center_horizontal" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/gender"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/fullName"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/street"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/city"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/state"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/registeredDate"
       android:layout_weight="1" />
 
   <TextView
-      android:text="TextView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/email"

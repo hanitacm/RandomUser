@@ -41,6 +41,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     holder.photo.setOnClickListener(
         view -> UserListAdapter.this.onItemClickListener.onClickUser(userData));
     holder.name.setText(userData.getName());
+    holder.surname.setText(userData.getSurname());
     holder.email.setText(userData.getEmail());
     holder.phone.setText(userData.getPhone());
     holder.delete.setOnClickListener(view -> {
@@ -80,6 +81,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
     @Bind(R.id.photo) ImageView photo;
     @Bind(R.id.name) TextView name;
+    @Bind(R.id.surname) TextView surname;
     @Bind(R.id.email) TextView email;
     @Bind(R.id.phone) TextView phone;
     @Bind(R.id.bt_remove) ImageButton delete;

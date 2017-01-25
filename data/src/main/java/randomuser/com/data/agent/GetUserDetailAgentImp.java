@@ -16,7 +16,8 @@ public class GetUserDetailAgentImp implements com.domain.usecases.GetUserDetailA
   }
 
   @Override
-  public Observable<UserModel> getUserDetail(String name) {
-    return userRepository.getUserDetail(name).map(userDataModelMapper::mapUserProperties);
+  public Observable<UserModel> getUserDetail(String name, String surname, String email) {
+    return userRepository.getUserDetail(name, surname, email)
+        .map(userDataModelMapper::mapUserProperties);
   }
 }

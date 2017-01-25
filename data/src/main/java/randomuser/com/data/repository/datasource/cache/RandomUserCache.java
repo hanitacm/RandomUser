@@ -28,16 +28,16 @@ public class RandomUserCache {
 
   @NonNull
   private String getKey(UserDataModel user) {
-    return user.getName().getFirst() + "_" + user.getName().getLast() + "_" + user.getEmail();
+    return getKey(user.getName().getFirst(), user.getName().getLast(), user.getEmail());
   }
 
   private String getKey(String nameUser, String surname, String email) {
     return nameUser + "_" + surname + "_" + email;
   }
 
-  public Observable<UserDataModel> getUserDetail(String name) {
+  public Observable<UserDataModel> getUserDetail(String nameUser, String surname, String email) {
 
-    UserDataModel userData = (UserDataModel) fileManager.read(name);
+    UserDataModel userData = (UserDataModel) fileManager.read(getKey(nameUser, surname, email));
 
     return Observable.just(userData);
   }

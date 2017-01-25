@@ -27,8 +27,8 @@ public class UserRepository {
     return randomUserApi.getRandomUsers();
   }
 
-  public Observable<UserDataModel> getUserDetail(String name) {
-    return randomUserCache.getUserDetail(name);
+  public Observable<UserDataModel> getUserDetail(String nameUser, String surname, String email) {
+    return randomUserCache.getUserDetail(nameUser,surname,email);
   }
 
   public Observable<Boolean> deleteUser(String nameUser, String surname, String email) {

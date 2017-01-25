@@ -11,7 +11,7 @@ public class GetUserDetailUseCase {
     this.getUserDetailAgent = getUserDetailAgent;
   }
 
-  public Observable<UserModel> getUserDetail(String name) {
-    return getUserDetailAgent.getUserDetail(name);
+  public Observable<UserModel> getUserDetail(String name, String surname, String email) {
+    return getUserDetailAgent.getUserDetail(name,surname,email);
   }
 }
