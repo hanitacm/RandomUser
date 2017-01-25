@@ -2,7 +2,6 @@ package randomuser.com.presentation.presenter;
 
 import android.util.Log;
 import com.domain.model.UserModel;
-import com.domain.model.UserModelCollection;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import com.domain.usecases.SearchUsersUseCase;
@@ -71,11 +70,13 @@ public class UserListPresenter {
   }
 
   public void onClickUser(UserViewModel selectedUser) {
-    view.navigateToUserDetail(selectedUser.getEmail());
+    view.navigateToUserDetail(
+        selectedUser.getName().replace(" ", "_") + "_" + selectedUser.getEmail());
   }
 
   public void onClickDeleteUser(UserViewModel userSelected) {
-    deleteUserSubscription = deleteUserUseCase.deleteUser(userSelected.getEmail())
+    deleteUserSubscription = deleteUserUseCase.deleteUser(
+        userSelected.getName().replace(" ", "_") + "_" + userSelected.getEmail())
         .subscribeOn(schedulerSubscribe)
         .observeOn(scheduler)
         .subscribe(aBoolean -> {
@@ -91,6 +92,8 @@ public class UserListPresenter {
           .subscribeOn(schedulerSubscribe)
           .observeOn(scheduler)
           .subscribe(this::showUsers);
+    } else {
+      getRandomUsers();
     }
   }
 

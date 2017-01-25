@@ -25,6 +25,7 @@ public class UserList extends AppCompatActivity
   @Bind(R.id.user_list) RecyclerView userList;
   private UserListPresenter presenter;
   private UserListAdapter adapter;
+  private EndlessRecyclerViewScrollListener endlessListener;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +46,13 @@ public class UserList extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     userList.setLayoutManager(layoutManager);
     userList.setItemAnimator(new DefaultItemAnimator());
-    userList.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+    endlessListener = new EndlessRecyclerViewScrollListener(layoutManager) {
       @Override
       public void onLoadMore(int totalItemCount) {
         presenter.getRandomUsers();
       }
-    });
+    };
+    userList.addOnScrollListener(endlessListener);
   }
 
   private void createPresenter() {
@@ -110,6 +112,12 @@ public class UserList extends AppCompatActivity
     final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
     searchView.setOnQueryTextListener(this);
 
+    searchView.setOnCloseListener(() -> {
+      userList.addOnScrollListener(endlessListener);
+      presenter.getRandomUsers();
+      return false;
+    });
+
     return true;
   }
 
@@ -120,8 +128,9 @@ public class UserList extends AppCompatActivity
 
   @Override
   public boolean onQueryTextChange(String newText) {
+    userList.removeOnScrollListener(endlessListener);
     presenter.onQueryTextChange(newText);
 
-    return false;
+    return true;
   }
 }

@@ -50,4 +50,6 @@ public class RandomUserCache {
   public Observable<List<UserDataModel>> getUserList() {
     return fileManager.readAllUsers();
   }
+
+
 }
