@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
-import randomuser.com.data.agent.GetUsersAgentImp;
+import randomuser.com.data.agent.GetRemoteUsersAgentImp;
 import randomuser.com.data.model.UserDataModel;
 import randomuser.com.data.model.UserDataModelCollection;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
@@ -21,17 +21,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class GetUsersAgentImplShould {
+public class GetRemoteUsersAgentImpShould {
 
   @Mock private UserDataModelMapper userDataMapper;
   @Mock private UserRepository userRepository;
 
-  private GetUsersAgentImp agent;
+  private GetRemoteUsersAgentImp agent;
 
   @Before
   public void setUp() throws Exception {
     initMocks(this);
-    agent = new GetUsersAgentImp(userRepository, userDataMapper);
+    agent = new GetRemoteUsersAgentImp(userRepository, userDataMapper);
   }
 
   @Test
