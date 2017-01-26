@@ -1,11 +1,12 @@
 package randomuser.com.data.agent;
 
 import com.domain.model.UserModel;
+import com.domain.respository.GetUserDetailAgent;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;
 import rx.Observable;
 
-public class GetUserDetailAgentImp implements com.domain.usecases.GetUserDetailAgent {
+public class GetUserDetailAgentImp implements GetUserDetailAgent {
   private final UserRepository userRepository;
   private final UserDataModelMapper userDataModelMapper;
 

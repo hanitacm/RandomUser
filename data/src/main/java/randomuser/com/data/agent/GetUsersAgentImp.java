@@ -1,7 +1,7 @@
 package randomuser.com.data.agent;
 
 import com.domain.model.UserModel;
-import com.domain.usecases.GetUsersAgent;
+import com.domain.respository.GetUsersAgent;
 import java.util.List;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;

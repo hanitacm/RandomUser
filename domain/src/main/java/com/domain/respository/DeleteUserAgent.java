@@ -1,4 +1,4 @@
-package com.domain.usecases;
+package com.domain.respository;
 
 import rx.Observable;
 

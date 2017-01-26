@@ -2,7 +2,7 @@ package randomuser.com.data.agent;
 
 import android.support.annotation.NonNull;
 import com.domain.model.UserModel;
-import com.domain.usecases.GetRemoteUsersAgent;
+import com.domain.respository.GetRemoteUsersAgent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

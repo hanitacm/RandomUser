@@ -2,11 +2,11 @@ package randomuser.com.data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.domain.usecases.DeleteUserAgent;
-import com.domain.usecases.FindUsersAgent;
-import com.domain.usecases.GetUserDetailAgent;
-import com.domain.usecases.GetRemoteUsersAgent;
-import com.domain.usecases.GetUsersAgent;
+import com.domain.respository.DeleteUserAgent;
+import com.domain.respository.FindUsersAgent;
+import com.domain.respository.GetUserDetailAgent;
+import com.domain.respository.GetRemoteUsersAgent;
+import com.domain.respository.GetUsersAgent;
 import randomuser.com.data.agent.DeleteUserAgentImp;
 import randomuser.com.data.agent.FindUsersAgentImp;
 import randomuser.com.data.agent.GetUserDetailAgentImp;

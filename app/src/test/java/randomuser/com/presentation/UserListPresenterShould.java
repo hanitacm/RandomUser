@@ -2,10 +2,10 @@ package randomuser.com.presentation;
 
 import android.support.annotation.NonNull;
 import com.domain.model.UserModel;
-import com.domain.usecases.DeleteUserUseCase;
-import com.domain.usecases.GetRandomUsersUseCase;
-import com.domain.usecases.GetUsersUseCase;
-import com.domain.usecases.SearchUsersUseCase;
+import com.domain.usecases.DeleteUserUseCaseImp;
+import com.domain.usecases.GetRandomUsersUseCaseImp;
+import com.domain.usecases.GetUsersUseCaseImp;
+import com.domain.usecases.SearchUsersUseCaseImp;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -28,11 +28,11 @@ public class UserListPresenterShould {
   private static final String QUERY_TEXT = "jenny";
   private UserListPresenter presenter;
   @Mock private UserListPresenter.UserListView view;
-  @Mock private GetRandomUsersUseCase getRandomUsersUseCase;
+  @Mock private GetRandomUsersUseCaseImp getRandomUsersUseCase;
   @Mock private UserViewModelMapper userViewModelMapper;
-  @Mock private DeleteUserUseCase deleteUserUseCase;
-  @Mock private SearchUsersUseCase searchUsersUseCase;
-  @Mock private GetUsersUseCase getUsersUseCase;
+  @Mock private DeleteUserUseCaseImp deleteUserUseCase;
+  @Mock private SearchUsersUseCaseImp searchUsersUseCase;
+  @Mock private GetUsersUseCaseImp getUsersUseCase;
 
   @Before
   public void setUp() throws Exception {

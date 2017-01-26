@@ -1,12 +1,13 @@
 package randomuser.com.data.agent;
 
 import com.domain.model.UserModel;
+import com.domain.respository.FindUsersAgent;
 import java.util.List;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;
 import rx.Observable;
 
-public class FindUsersAgentImp implements com.domain.usecases.FindUsersAgent {
+public class FindUsersAgentImp implements FindUsersAgent {
   private final UserRepository userRepository;
   private final UserDataModelMapper userDataModelMapper;
 

@@ -1,4 +1,4 @@
-package com.domain.usecases;
+package com.domain.respository;
 
 import com.domain.model.UserModel;
 import java.util.List;

@@ -1,9 +1,10 @@
 package randomuser.com.data.agent;
 
+import com.domain.respository.DeleteUserAgent;
 import randomuser.com.data.repository.UserRepository;
 import rx.Observable;
 
-public class DeleteUserAgentImp implements com.domain.usecases.DeleteUserAgent {
+public class DeleteUserAgentImp implements DeleteUserAgent {
   private UserRepository userRepository;
 
   public DeleteUserAgentImp(UserRepository userRepository) {

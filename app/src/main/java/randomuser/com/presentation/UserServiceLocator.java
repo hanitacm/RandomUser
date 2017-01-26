@@ -3,11 +3,14 @@ package randomuser.com.presentation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.domain.usecases.DeleteUserUseCase;
+import com.domain.usecases.DeleteUserUseCaseImp;
 import com.domain.usecases.GetRandomUsersUseCase;
-import com.domain.usecases.GetRemoteUsersAgent;
-import com.domain.usecases.GetUserDetailUseCase;
+import com.domain.usecases.GetRandomUsersUseCaseImp;
+import com.domain.usecases.GetUserDetailUseCaseImp;
 import com.domain.usecases.GetUsersUseCase;
+import com.domain.usecases.GetUsersUseCaseImp;
 import com.domain.usecases.SearchUsersUseCase;
+import com.domain.usecases.SearchUsersUseCaseImp;
 import randomuser.com.data.UserAgentLocator;
 import randomuser.com.presentation.model.mapper.UserDetailViewModelMapper;
 import randomuser.com.presentation.model.mapper.UserViewModelMapper;
@@ -28,13 +31,13 @@ public class UserServiceLocator {
 
   @NonNull
   private GetUsersUseCase provideGetUsersUseCase() {
-    return new GetUsersUseCase(provideUserAgentLocator().getUsersAgent(context),
+    return new GetUsersUseCaseImp(provideUserAgentLocator().getUsersAgent(context),
     provideUserAgentLocator().getRemoteUsersAgent(context));
   }
 
   @NonNull
   private SearchUsersUseCase provideSearchUsersUseCase() {
-    return new SearchUsersUseCase(provideUserAgentLocator().findUsersAgent(context));
+    return new SearchUsersUseCaseImp(provideUserAgentLocator().findUsersAgent(context));
   }
 
   @NonNull
@@ -44,12 +47,12 @@ public class UserServiceLocator {
 
   @NonNull
   private DeleteUserUseCase provideDeleteUserUseCase() {
-    return new DeleteUserUseCase(provideUserAgentLocator().deleteUserAgent(context));
+    return new DeleteUserUseCaseImp(provideUserAgentLocator().deleteUserAgent(context));
   }
 
   public UserDetailPresenter getUserDetailPresenter() {
     return new UserDetailPresenter(
-        new GetUserDetailUseCase(provideUserAgentLocator().getUserDetailAgent(context)),
+        new GetUserDetailUseCaseImp(provideUserAgentLocator().getUserDetailAgent(context)),
         provideUserDetailViewModelMapper());
   }
 
@@ -65,6 +68,6 @@ public class UserServiceLocator {
 
   @NonNull
   private GetRandomUsersUseCase provideGetRandomUsersUseCase() {
-    return new GetRandomUsersUseCase(provideUserAgentLocator().getRemoteUsersAgent(context));
+    return new GetRandomUsersUseCaseImp(provideUserAgentLocator().getRemoteUsersAgent(context));
   }
 }
