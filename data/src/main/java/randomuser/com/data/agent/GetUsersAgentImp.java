@@ -1,13 +1,16 @@
 package randomuser.com.data.agent;
 
+import android.support.annotation.NonNull;
 import com.domain.model.UserModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import randomuser.com.data.model.UserDataModel;
 import randomuser.com.data.model.UserDataModelCollection;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;
 import rx.Observable;
+import rx.functions.Func2;
 
 public class GetUsersAgentImp implements com.domain.usecases.GetUsersAgent {
   private final UserRepository userRepository;
@@ -26,17 +29,21 @@ public class GetUsersAgentImp implements com.domain.usecases.GetUsersAgent {
     Observable<List<UserDataModel>> cacheUserModelList = userRepository.getUserList();
 
     return Observable.zip(apiUserModelList, cacheUserModelList, userRepository.getDeletedUser(),
-        (userDataModelApiList, userDataModelCacheList, stringMap) -> {
-          List<UserDataModel> users = new ArrayList<>();
-          for (UserDataModel user : userDataModelApiList) {
-            if (!userDataModelCacheList.contains(user) && !stringMap.containsKey(user.getEmail())) {
-              users.add(user);
-            }
-          }
-          return users;
-        })
+        this::processUsersCollections)
         .doOnNext(userRepository::saveUserList)
         .flatMap(cachedUserDataModelList -> userRepository.getUserList())
         .map(userDataModelMapper);
+  }
+
+  @NonNull
+  private List<UserDataModel> processUsersCollections(List<UserDataModel> userDataModelApiList,
+      List<UserDataModel> userDataModelCacheList, Map<String, ?> stringMap) {
+    List<UserDataModel> users = new ArrayList<>();
+    for (UserDataModel user : userDataModelApiList) {
+      if (!userDataModelCacheList.contains(user) && !stringMap.containsKey(user.getEmail())) {
+        users.add(user);
+      }
+    }
+    return users;
   }
 }

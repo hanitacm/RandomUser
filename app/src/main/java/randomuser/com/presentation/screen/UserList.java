@@ -78,7 +78,7 @@ public class UserList extends AppCompatActivity
   }
 
   @Override
-  protected void onStop() {
+  protected void onDestroy() {
     super.onStop();
     presenter.onStop();
   }

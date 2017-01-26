@@ -74,7 +74,7 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
   }
 
   @Override
-  protected void onStop() {
+  protected void onDestroy() {
     super.onStop();
     presenter.onStop();
   }
