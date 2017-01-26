@@ -5,9 +5,9 @@ import java.util.List;
 import rx.Observable;
 
 public class GetRandomUsersUseCase {
-  private final GetUsersAgent getUsersAgent;
+  private final GetRemoteUsersAgent getUsersAgent;
 
-  public GetRandomUsersUseCase(GetUsersAgent getUsersAgent) {
+  public GetRandomUsersUseCase(GetRemoteUsersAgent getUsersAgent) {
 
     this.getUsersAgent = getUsersAgent;
   }

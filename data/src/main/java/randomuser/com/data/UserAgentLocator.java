@@ -5,10 +5,12 @@ import android.support.annotation.NonNull;
 import com.domain.usecases.DeleteUserAgent;
 import com.domain.usecases.FindUsersAgent;
 import com.domain.usecases.GetUserDetailAgent;
+import com.domain.usecases.GetRemoteUsersAgent;
 import com.domain.usecases.GetUsersAgent;
 import randomuser.com.data.agent.DeleteUserAgentImp;
 import randomuser.com.data.agent.FindUsersAgentImp;
 import randomuser.com.data.agent.GetUserDetailAgentImp;
+import randomuser.com.data.agent.GetRemoteUsersAgentImp;
 import randomuser.com.data.agent.GetUsersAgentImp;
 import randomuser.com.data.model.mapper.UserDataModelMapper;
 import randomuser.com.data.repository.UserRepository;
@@ -18,8 +20,8 @@ import randomuser.com.data.repository.datasource.cache.RandomUserCache;
 import randomuser.com.data.repository.datasource.sharedPreferences.RandomUserPreferences;
 
 public class UserAgentLocator {
-  public GetUsersAgent getUsersAgent(Context context) {
-    return new GetUsersAgentImp(provideUserRepository(context), provideUserDataModelMapper());
+  public GetRemoteUsersAgent getRemoteUsersAgent(Context context) {
+    return new GetRemoteUsersAgentImp(provideUserRepository(context), provideUserDataModelMapper());
   }
 
   public GetUserDetailAgent getUserDetailAgent(Context context) {
@@ -32,6 +34,10 @@ public class UserAgentLocator {
 
   public FindUsersAgent findUsersAgent(Context context) {
     return new FindUsersAgentImp(provideUserRepository(context), provideUserDataModelMapper());
+  }
+
+  public GetUsersAgent getUsersAgent(Context context) {
+    return new GetUsersAgentImp(provideUserRepository(context), provideUserDataModelMapper());
   }
 
   @NonNull

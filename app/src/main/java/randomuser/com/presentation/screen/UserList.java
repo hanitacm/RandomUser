@@ -54,7 +54,7 @@ public class UserList extends AppCompatActivity
     endlessListener = new EndlessRecyclerViewScrollListener(layoutManager) {
       @Override
       public void onLoadMore(int totalItemCount) {
-        presenter.getRandomUsers();
+        presenter.getMoreUsers();
       }
     };
     userList.addOnScrollListener(endlessListener);
@@ -74,7 +74,7 @@ public class UserList extends AppCompatActivity
   @Override
   protected void onResume() {
     super.onResume();
-    presenter.getRandomUsers();
+    presenter.getUsers();
   }
 
   @Override
@@ -101,13 +101,13 @@ public class UserList extends AppCompatActivity
 
   @Override
   public void showLoading() {
-    userList.setVisibility(View.GONE);
+
     loading.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void hideLoading() {
-    userList.setVisibility(View.VISIBLE);
+
     loading.setVisibility(View.GONE);
   }
 
@@ -136,7 +136,7 @@ public class UserList extends AppCompatActivity
 
     searchView.setOnCloseListener(() -> {
       userList.addOnScrollListener(endlessListener);
-      presenter.getRandomUsers();
+      presenter.getUsers();
       return false;
     });
 

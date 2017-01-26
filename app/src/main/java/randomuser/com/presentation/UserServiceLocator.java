@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
+import com.domain.usecases.GetRemoteUsersAgent;
 import com.domain.usecases.GetUserDetailUseCase;
+import com.domain.usecases.GetUsersUseCase;
 import com.domain.usecases.SearchUsersUseCase;
 import randomuser.com.data.UserAgentLocator;
 import randomuser.com.presentation.model.mapper.UserDetailViewModelMapper;
@@ -21,7 +23,13 @@ public class UserServiceLocator {
 
   public UserListPresenter getUserListPresenter() {
     return new UserListPresenter(provideGetRandomUsersUseCase(), provideUserViewModelMapper(),
-        provideDeleteUserUseCase(), provideSearchUsersUseCase());
+        provideDeleteUserUseCase(), provideSearchUsersUseCase(), provideGetUsersUseCase());
+  }
+
+  @NonNull
+  private GetUsersUseCase provideGetUsersUseCase() {
+    return new GetUsersUseCase(provideUserAgentLocator().getUsersAgent(context),
+    provideUserAgentLocator().getRemoteUsersAgent(context));
   }
 
   @NonNull
@@ -57,6 +65,6 @@ public class UserServiceLocator {
 
   @NonNull
   private GetRandomUsersUseCase provideGetRandomUsersUseCase() {
-    return new GetRandomUsersUseCase(provideUserAgentLocator().getUsersAgent(context));
+    return new GetRandomUsersUseCase(provideUserAgentLocator().getRemoteUsersAgent(context));
   }
 }

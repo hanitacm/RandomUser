@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import com.domain.model.UserModel;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
+import com.domain.usecases.GetUsersUseCase;
 import com.domain.usecases.SearchUsersUseCase;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class UserListPresenterShould {
   @Mock private UserViewModelMapper userViewModelMapper;
   @Mock private DeleteUserUseCase deleteUserUseCase;
   @Mock private SearchUsersUseCase searchUsersUseCase;
+  @Mock private GetUsersUseCase getUsersUseCase;
 
   @Before
   public void setUp() throws Exception {
@@ -38,7 +40,7 @@ public class UserListPresenterShould {
 
     this.presenter =
         new UserListPresenter(getRandomUsersUseCase, userViewModelMapper, deleteUserUseCase,
-            searchUsersUseCase, Schedulers.immediate(), Schedulers.immediate());
+            searchUsersUseCase, getUsersUseCase, Schedulers.immediate(), Schedulers.immediate());
 
     presenter.onStart(view);
   }
@@ -48,12 +50,12 @@ public class UserListPresenterShould {
     rx.Observable<List<UserModel>> userModels = givenAUserModelListOf(1);
     List<UserViewModel> userViewModels = new ArrayList<>();
 
-    given(getRandomUsersUseCase.getRandomUsers()).willReturn(userModels);
+    given(getUsersUseCase.getUsers()).willReturn(userModels);
     given(userViewModelMapper.call(userModels.toBlocking().first())).willReturn(userViewModels);
 
-    presenter.getRandomUsers();
+    presenter.getUsers();
 
-    verify(getRandomUsersUseCase, times(1)).getRandomUsers();
+    verify(getUsersUseCase, times(1)).getUsers();
 
     verifyRenderUserListResults(userModels, userViewModels);
   }
@@ -76,12 +78,12 @@ public class UserListPresenterShould {
     rx.Observable<List<UserModel>> userModels = givenAUserModelListOf(1);
     List<UserViewModel> userViewModels = new ArrayList<>();
 
-    given(getRandomUsersUseCase.getRandomUsers()).willReturn(userModels);
+    given(getUsersUseCase.getUsers()).willReturn(userModels);
     given(userViewModelMapper.call(userModels.toBlocking().first())).willReturn(userViewModels);
 
     presenter.onQueryTextChange(EMPTY_QUERY_TEXT);
 
-    verify(getRandomUsersUseCase, times(1)).getRandomUsers();
+    verify(getUsersUseCase, times(1)).getUsers();
     verifyZeroInteractions(searchUsersUseCase);
     verifyRenderUserListResults(userModels, userViewModels);
   }
@@ -91,9 +93,9 @@ public class UserListPresenterShould {
 
     rx.Observable<List<UserModel>> userModels = givenAUserModelListOf(0);
 
-    given(getRandomUsersUseCase.getRandomUsers()).willReturn(userModels);
+    given(getUsersUseCase.getUsers()).willReturn(userModels);
 
-    presenter.getRandomUsers();
+    presenter.getUsers();
 
     verify(view, times(1)).showLoading();
     verifyZeroInteractions(userViewModelMapper);
@@ -122,6 +124,22 @@ public class UserListPresenterShould {
     verify(deleteUserUseCase, times(1)).deleteUser(userViewModel.getName(),
         userViewModel.getSurname(), userViewModel.getEmail());
     verify(view, times(1)).deleteUserList(userViewModel);
+  }
+
+  @Test
+  public void get_remote_users_when_user_ask_for_more_results(){
+    rx.Observable<List<UserModel>> userModels = givenAUserModelListOf(1);
+    List<UserViewModel> userViewModels = new ArrayList<>();
+
+    given(getRandomUsersUseCase.getRandomUsers()).willReturn(userModels);
+    given(userViewModelMapper.call(userModels.toBlocking().first())).willReturn(userViewModels);
+
+    presenter.getMoreUsers();
+
+    verify(getRandomUsersUseCase, times(1)).getRandomUsers();
+
+    verifyRenderUserListResults(userModels, userViewModels);
+
   }
 
   @NonNull
