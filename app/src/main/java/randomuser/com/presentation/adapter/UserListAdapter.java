@@ -71,6 +71,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     notifyDataSetChanged();
   }
 
+  public void clear() {
+    users.clear();
+    notifyDataSetChanged();
+  }
+
   public interface OnItemClickListener {
     void onClickUser(UserViewModel userSelected);
 

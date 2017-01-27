@@ -1,11 +1,11 @@
 package randomuser.com.presentation.presenter;
 
-import android.util.Log;
 import com.domain.model.UserModel;
 import com.domain.usecases.DeleteUserUseCase;
 import com.domain.usecases.GetRandomUsersUseCase;
 import com.domain.usecases.GetUsersUseCase;
 import com.domain.usecases.SearchUsersUseCase;
+import java.net.UnknownHostException;
 import java.util.List;
 import randomuser.com.presentation.model.UserViewModel;
 import randomuser.com.presentation.model.mapper.UserViewModelMapper;
@@ -66,24 +66,28 @@ public class UserListPresenter {
         .subscribeOn(schedulerSubscribe)
         .observeOn(scheduler)
         .subscribe(new Subscriber<List<UserModel>>() {
-          @Override
-          public void onCompleted() {
+                     @Override
+                     public void onCompleted() {
 
-          }
+                     }
 
-          @Override
-          public void onError(Throwable e) {
+                     @Override
+                     public void onError(Throwable e) {
 
-            view.hideLoading();
-            Log.e("RandomUser", e.getMessage());
-          }
+                       view.hideLoading();
+                       if (e instanceof UnknownHostException) {
+                         view.showNetworkConnectionError();
+                       }
+                     }
 
-          @Override
-          public void onNext(List<UserModel> userModelCollection) {
-            view.hideLoading();
-            showUsers(userModelCollection);
-          }
-        });
+                     @Override
+                     public void onNext(List<UserModel> userModelCollection) {
+                       view.hideLoading();
+                       showUsers(userModelCollection);
+                     }
+                   }
+
+        );
   }
 
   public void getMoreUsers() {
@@ -101,7 +105,9 @@ public class UserListPresenter {
           public void onError(Throwable e) {
 
             view.hideLoading();
-            Log.e("RandomUser", e.getMessage());
+            if (e instanceof UnknownHostException) {
+              view.showNetworkConnectionError();
+            }
           }
 
           @Override
@@ -172,5 +178,7 @@ public class UserListPresenter {
     void hideLoading();
 
     void renderNoResults();
+
+    void showNetworkConnectionError();
   }
 }

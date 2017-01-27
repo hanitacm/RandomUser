@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.List;
@@ -58,6 +59,7 @@ public class UserList extends AppCompatActivity
       }
     };
     userList.addOnScrollListener(endlessListener);
+
   }
 
   private void createPresenter() {
@@ -80,6 +82,7 @@ public class UserList extends AppCompatActivity
   @Override
   protected void onDestroy() {
     super.onStop();
+    adapter.clear();
     presenter.onStop();
   }
 
@@ -113,7 +116,13 @@ public class UserList extends AppCompatActivity
 
   @Override
   public void renderNoResults() {
-    //TODO
+    adapter.clear();
+    Toast.makeText(this, R.string.No_users,Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void showNetworkConnectionError() {
+    Toast.makeText(this, R.string.No_connection,Toast.LENGTH_LONG).show();
   }
 
   @Override
@@ -133,7 +142,7 @@ public class UserList extends AppCompatActivity
     final MenuItem searchItem = menu.findItem(R.id.action_search);
     final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
     searchView.setOnQueryTextListener(this);
-
+    searchView.clearFocus();
     searchView.setOnCloseListener(() -> {
       userList.addOnScrollListener(endlessListener);
       presenter.getUsers();
