@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -20,13 +21,13 @@ public class UserDetail extends AppCompatActivity implements UserDetailPresenter
   public static final String SURNAME = "surname";
   public static final String EMAIL = "email";
   @Bind(R.id.photo) ImageView photo;
-  @Bind(R.id.gender) TextView gender;
-  @Bind(R.id.fullName) TextView fullName;
-  @Bind(R.id.email) TextView email;
-  @Bind(R.id.street) TextView street;
-  @Bind(R.id.city) TextView city;
-  @Bind(R.id.registeredDate) TextView date;
-  @Bind(R.id.state) TextView state;
+  @Bind(R.id.gender) EditText gender;
+  @Bind(R.id.fullName) EditText fullName;
+  @Bind(R.id.email) EditText email;
+  @Bind(R.id.street) EditText street;
+  @Bind(R.id.city) EditText city;
+  @Bind(R.id.registeredDate) EditText date;
+  @Bind(R.id.state) EditText state;
 
   private UserDetailPresenter presenter;
 
