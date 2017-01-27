@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="randomuser.com.presentation">
+    package="com.randomuser.presentation">
 
   <application
       android:allowBackup="true"
@@ -9,7 +9,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".screen.UserList"
+        android:name="com.randomuser.presentation.screen.UserList"
         android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,7 @@
       </intent-filter>
     </activity>
     <activity
-        android:name=".screen.UserDetail"
+        android:name="com.randomuser.presentation.screen.UserDetail"
         android:screenOrientation="portrait" />
   </application>
 

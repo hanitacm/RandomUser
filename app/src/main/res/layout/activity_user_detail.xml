@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="randomuser.com.presentation.screen.UserDetail">
+    tools:context="com.randomuser.presentation.screen.UserDetail">
 
   <ImageView
       android:layout_width="128dp"
