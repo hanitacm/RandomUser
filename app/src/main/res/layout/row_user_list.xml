@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <ImageView
+      android:id="@+id/photo"
+      android:layout_width="72dp"
+      android:layout_height="72dp"
+      android:layout_alignParentLeft="true" />
+
+  <LinearLayout
+      android:id="@+id/user_data"
+      android:orientation="vertical"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toRightOf="@+id/photo"
+      android:layout_toLeftOf="@+id/bt_remove">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/surname" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone" />
+  </LinearLayout>
+
+  <ImageButton
+      android:id="@+id/bt_remove"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@android:drawable/ic_menu_delete"
+      android:layout_centerVertical="true"
+      android:layout_alignParentRight="true" />
+
+
+</RelativeLayout>

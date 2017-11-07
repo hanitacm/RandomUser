@@ -1,0 +1,13 @@
+<resources>
+  <string name="app_name">RandomUser</string>
+  <string name="action_search">Search</string>
+  <string name="No_users">No users to show</string>
+  <string name="No_connection">No network connection</string>
+  <string name="gender">Gender</string>
+  <string name="full_name">Full name</string>
+  <string name="street">Street</string>
+  <string name="city">City</string>
+  <string name="state">State</string>
+  <string name="registered_date">Registered date</string>
+  <string name="email">Email</string>
+</resources>

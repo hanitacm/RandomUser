@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+
+
+dependencies {
+  compile 'io.reactivex:rxjava:1.1.6'
+
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+retrolambda {
+  javaVersion JavaVersion.VERSION_1_7
+}
