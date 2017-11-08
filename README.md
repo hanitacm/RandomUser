@@ -5,8 +5,11 @@ Android Application that does requests randomUserApi to show user list and user 
 ## Implementation details
 
 MVP Pattern applied
+
 RxJava
-Retrofit 
-ButternKnife
+
+Retrofit
+ 
+ButterKnife
 
 Unit Testing using Mockito
